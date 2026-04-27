@@ -1,0 +1,8 @@
+# npm package
+/node_modules/
+
+# empty file to improve vsc linting tailwind's classes
+tailwind.config.js
+
+# task of project
+task.txt
