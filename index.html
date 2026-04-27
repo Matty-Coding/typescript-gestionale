@@ -10,7 +10,7 @@
     <title>Vanilla JS Project | Admin Panel</title>
   </head>
   <body
-    class="relative flex flex-col w-screen bg-slate-900 text-zinc-300 min-h-dvh"
+    class="flex flex-col w-screen bg-slate-900 text-zinc-300 min-h-dvh backdrop-blur-md"
   >
     <header
       class="flex items-center justify-between px-2 py-1 shadow-md sm:justify-center shadow-indigo-500/70"
@@ -36,7 +36,7 @@
       </h1>
     </header>
 
-    <main class="flex w-full gap-2 px-1 py-2 grow">
+    <main class="relative flex w-full gap-2 px-1 py-2 grow">
       <!-- sidebar -->
       <aside
         class="z-10 flex-1 px-2 pt-1 pb-2 transition-transform duration-300 ease-in-out transform -translate-x-[105%] border rounded-tl-lg rounded-br-lg grow sm:block sm:translate-x-0 absolute sm:static bg-slate-950/90 sm:rounded-lg"
@@ -173,16 +173,12 @@
 
           <select
             name="field-filter"
-            id="field-filter"
+            id="select-filter"
             class="w-full px-2 py-1 mt-2 text-center border-b rounded-lg cursor-pointer hover:text-emerald-500/80 bg-slate-950/90 border-emerald-500/80"
           >
             <option class="group-hover:cursor-pointer" value="">
               Seleziona
             </option>
-            <option value="name">Name</option>
-            <option value="email">Email</option>
-            <option value="role">Role</option>
-            <option value="status">Status</option>
           </select>
 
           <!-- trash -->
@@ -220,13 +216,54 @@
         <h2
           class="pb-1 text-xl font-semibold text-center md:text-2xl xl:text-4xl"
           id="dashboard-title"
-        ></h2>
+        >
+          Users
+        </h2>
+        <button>Nuovo utente</button>
         <table class="text-sm md:text-lg xl:text-2xl">
           <thead id="table-head"></thead>
           <tbody id="table-body"></tbody>
         </table>
       </section>
     </main>
+
+    <!-- background screen with open modal -->
+    <div
+      id="modal"
+      class="fixed inset-0 z-50 items-center justify-center hidden bg-slate-950/80 backdrop-blur-sm"
+    >
+      <!-- modal wrapper -->
+      <div
+        class="relative z-10 w-11/12 max-w-2xl p-6 border shadow-2xl bg-slate-900 rounded-xl border-indigo-500/50"
+      >
+        <!-- modal title + close button -->
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-bold text-indigo-400" id="modal-title"></h3>
+          <button
+            onclick="closeModal()"
+            class="p-1 rounded-full hover:bg-slate-800"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="size-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!-- modal content -->
+        <div class="text-zinc-300" id="modal-content"></div>
+      </div>
+    </div>
 
     <!-- footer -->
     <footer

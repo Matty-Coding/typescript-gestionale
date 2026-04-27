@@ -6,5 +6,3 @@ function toggleSideBar() {
   sideBar.classList.toggle("-translate-x-[105%]");
   sideBar.classList.toggle("translate-x-0");
 }
-
-//
