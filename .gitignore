@@ -12,3 +12,6 @@ task.txt
 
 # typescript json settings
 tsconfig.json
+
+# eslint config 
+eslint.config.js

@@ -1,8 +1,8 @@
 // toggle sidebar
-const sideBar = document.querySelector("aside");
-const hamburgerIcon = document.querySelector("#hamburger-icon");
+const sideBar = document.querySelector("aside") as HTMLElement;
+const hamburgerMenu = document.querySelector("#hamburger-icon") as HTMLElement;
 
-function toggleSideBar() {
+hamburgerMenu.onclick = function (): void {
   sideBar.classList.toggle("-translate-x-[105%]");
   sideBar.classList.toggle("translate-x-0");
-}
+};
