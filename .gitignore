@@ -6,3 +6,9 @@ tailwind.config.js
 
 # task of project
 task.txt
+
+# js folder compiled by tsc
+/dist/
+
+# typescript json settings
+tsconfig.json

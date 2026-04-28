@@ -213,13 +213,13 @@
 
       <!-- main section -->
       <section class="px-2 py-1 border rounded-lg flex-3">
-        <h2
-          class="pb-1 text-xl font-semibold text-center md:text-2xl xl:text-4xl"
-          id="dashboard-title"
-        >
-          Users
-        </h2>
-        <button>Nuovo utente</button>
+        <div>
+          <h2
+            class="pb-1 text-xl font-semibold text-center md:text-2xl xl:text-4xl"
+            id="dashboard-title"
+          ></h2>
+          <button type="button" id="add-resource"></button>
+        </div>
         <table class="text-sm md:text-lg xl:text-2xl">
           <thead id="table-head"></thead>
           <tbody id="table-body"></tbody>
@@ -271,6 +271,6 @@
     >
       &copy; <span id="current-year">2026</span> All rights reserved
     </footer>
-    <script src="./main.js"></script>
+    <script src="./dist/main.js"></script>
   </body>
 </html>

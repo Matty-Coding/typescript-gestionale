@@ -16,4 +16,4 @@ Using `json-server` as fake backend, create UI for an admin dashboard with compl
 ## Tech Stack
 - HTML5
 - TailwindCSS (CDN integration)
-- Javascript Vanilla
+- Typescript compiled into Javascript Vanilla 
