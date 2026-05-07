@@ -21,6 +21,7 @@ function generateSubmitButton(resource: Resource): HTMLButtonElement {
     "xl:text-2xl",
     "hover:bg-green-400/80",
     "hover:text-slate-950",
+    "w-full",
   );
   return modalSubmitButton;
 }

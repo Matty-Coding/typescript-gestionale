@@ -3,11 +3,11 @@ import {
   handleFetch,
   addResourceButton,
 } from "./ui-management.js";
-import { openModal } from "./modals/loader.js";
+import { openModal } from "./modal/load-content.js";
 import type { Resource } from "./types.js";
 import { closeModal } from "./utils/close-modal.js";
 
-let currentResource: string = "users";
+export let currentResource: string = "users";
 
 // toggle sidebar
 const sideBar = document.querySelector("aside") as HTMLElement;
@@ -43,6 +43,7 @@ resourcesList.addEventListener("click", async (e: Event) => {
 window.onload = async function (): Promise<void> {
   const users = await handleFetch("users");
   addResourceButton.classList.remove("hidden");
+  addResourceButton.classList.add("flex");
   displayData(users);
 };
 

@@ -9,6 +9,8 @@ function generateTextInput(
   textInput.name = name;
   textInput.value = (value || "") as string;
   textInput.placeholder = placeholder;
+  textInput.required = true;
+  textInput.autocomplete = "off";
   textInput.classList.add("border-b", "border-indigo-400/80", "py-2");
 
   return textInput;

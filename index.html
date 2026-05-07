@@ -138,9 +138,9 @@
           <button
             type="button"
             id="add-resource"
-            class="hidden p-1 text-black rounded-md cursor-pointer bg-lime-300/80 text-md md:text-lg xl:text-2xl hover:bg-lime-500/80 hover:text-slate-950"
+            class="items-center justify-center hidden p-1 text-black rounded-md cursor-pointer w-7 h-7 lg:w-10 lg:h-10 xl:w-12 xl:h-12 bg-lime-300/80 text-md md:text-lg xl:text-2xl hover:bg-lime-500/80 hover:text-slate-950"
           >
-            <i class="bi bi-plus-lg"></i>
+            <i class="md:text-xl text-md xl:text-2xl bi bi-plus-lg"></i>
           </button>
         </div>
 
@@ -149,7 +149,7 @@
           class="flex items-center justify-center gap-2 text-sm md:text-lg xl:text-2xl"
         >
           <span>Loading data</span>
-          <i class="animate-spin bi bi-arrow-repeat text-md md:text-lg xl:text-2xl"></i>
+          <i class="text-md animate-spin bi bi-arrow-repeat md:text-lg xl:text-2xl"></i>
         </p>
 
         <table id="table-data" class="w-full overflow-auto text-sm md:text-lg xl:text-2xl">
@@ -162,7 +162,7 @@
     <!-- background screen with open modal -->
     <div
       id="modal"
-      class="fixed inset-0 z-50 items-center justify-center hidden bg-slate-950/80 backdrop-blur-sm"
+      class="fixed inset-0 z-50 items-center justify-center hidden p-3 bg-slate-950/80 backdrop-blur-sm"
     >
       <!-- modal wrapper -->
       <div
@@ -171,7 +171,7 @@
         <!-- modal title + close button -->
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-xl font-bold text-indigo-400" id="modal-title"></h3>
-          <button id="close-modal" class="p-2 rounded-full cursor-pointer group hover:bg-slate-800">
+          <button id="close-modal" class="w-8 h-8 p-1 rounded-full cursor-pointer group hover:bg-slate-800">
             <i class="bi bi-x-lg group-hover:text-red-500/90"></i>
           </button>
         </div>

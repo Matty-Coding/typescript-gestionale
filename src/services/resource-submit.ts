@@ -13,15 +13,18 @@ async function updateOrCreate(resource: Resource): Promise<void> {
 const closeModal = document.querySelector("#close-modal") as HTMLButtonElement;
 
 async function handleFormSubmit(resource: Resource, form: HTMLFormElement) {
-  form.onsubmit = async function (event: SubmitEvent): Promise<void> {
+  form.addEventListener("submit", async (event): Promise<void> => {
     event.preventDefault();
 
     switch (resource.type) {
       case "user": {
         const data = new FormData(form);
-        const username = data.get("username") as string;
-        const roleId = data.get("roleId") as string;
-        const isActive = data.get("isActive") as string;
+        const username = (data.get("username") as string).trim();
+        const roleId = (data.get("roleId") as string).trim();
+        const isActive = (data.get("isActive") as string).trim();
+
+        // validation empty username
+        if (!username) return;
 
         const user: User = {
           id: resource.id,
@@ -37,10 +40,13 @@ async function handleFormSubmit(resource: Resource, form: HTMLFormElement) {
 
       case "post": {
         const postData = new FormData(form);
-        const title = postData.get("title") as string;
-        const content = postData.get("content") as string;
-        const isActivePost = postData.get("isActive") as string;
-        const userId = postData.get("userId") as string;
+        const title = (postData.get("title") as string).trim();
+        const content = (postData.get("content") as string).trim();
+        const isActivePost = (postData.get("isActive") as string).trim();
+        const userId = (postData.get("userId") as string).trim();
+
+        // validation empty value
+        if (!title || !content || !userId) return;
 
         const post: Post = {
           id: resource.id,
@@ -98,7 +104,7 @@ async function handleFormSubmit(resource: Resource, form: HTMLFormElement) {
     displayData(resources);
 
     closeModal.click();
-  };
+  });
 }
 
-export { updateOrCreate, handleFormSubmit };
+export { updateOrCreate, handleFormSubmit, closeModal };

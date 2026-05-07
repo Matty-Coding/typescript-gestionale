@@ -14,7 +14,7 @@ async function getAllData(field: string): Promise<Resource[]> {
 }
 
 // handle resources api
-async function handleCreate<T>(resource: Resource): Promise<T[] | undefined> {
+async function handleCreate(resource: Resource): Promise<Resource | undefined> {
   try {
     const response = await fetch(
       `${localhost}/${resource.type.toLowerCase()}s`,
@@ -38,7 +38,7 @@ async function handleCreate<T>(resource: Resource): Promise<T[] | undefined> {
 }
 
 // manage update resources
-async function handleUpdate<T>(resource: Resource): Promise<T[] | undefined> {
+async function handleUpdate(resource: Resource): Promise<Resource | undefined> {
   try {
     let oldUser: User | null = null;
 
@@ -71,4 +71,15 @@ async function handleUpdate<T>(resource: Resource): Promise<T[] | undefined> {
   }
 }
 
-export { getAllData, handleCreate, handleUpdate };
+async function handleDelete(resource: Resource): Promise<boolean | undefined> {
+  try {
+    await fetch(`${localhost}/${resource.type.toLowerCase()}s/${resource.id}`, {
+      method: "DELETE",
+    });
+    return true;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export { getAllData, handleCreate, handleUpdate, localhost, handleDelete };

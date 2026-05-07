@@ -1,7 +1,8 @@
 import type { BaseInterface, Resource } from "./types.js";
 import { getAllData } from "./services/api.js";
 import { capitalize } from "./utils/capitalize.js";
-// import { openModal } from "./modals/loader.js";
+import { currentResource } from "./main.js";
+import { openModal } from "./modal/load-content.js";
 
 // =============  selectors  ===============
 const dashboardTitle = document.querySelector(
@@ -40,7 +41,7 @@ function displayData(data: Resource[]): void {
   headersRow.classList.add("bg-indigo-700/90");
 
   Object.keys(data[0] as BaseInterface).forEach((header) => {
-    if (header !== "id" && !header.endsWith("Id")) {
+    if (header !== "id" && !header.endsWith("Id") && header !== "type") {
       const headerCell = document.createElement("th") as HTMLTableCellElement;
       headerCell.classList.add(
         "border",
@@ -49,7 +50,7 @@ function displayData(data: Resource[]): void {
         "p-1",
       );
       headerCell.textContent =
-        `${header.charAt(0).toUpperCase()}${header.slice(1).toLowerCase()}` as string;
+        header === "isActive" ? "Active" : capitalize(header);
       headersRow.appendChild(headerCell);
     }
   });
@@ -70,7 +71,7 @@ function displayData(data: Resource[]): void {
     dataRow.classList.add("odd:bg-indigo-400/90", "even:bg-indigo-500/90");
     dataRow.dataset.id = element.id;
     for (const [key, value] of Object.entries(element)) {
-      if (key !== "id" && !key.endsWith("Id")) {
+      if (key !== "id" && !key.endsWith("Id") && key !== "type") {
         const dataCell = document.createElement("td") as HTMLTableCellElement;
         dataCell.classList.add(
           "border",
@@ -80,6 +81,7 @@ function displayData(data: Resource[]): void {
           "truncate",
           "text-nowrap",
         );
+
         dataCell.textContent = value as string;
         dataRow.appendChild(dataCell);
       }
@@ -99,7 +101,7 @@ function displayData(data: Resource[]): void {
     );
 
     const updateButton = document.createElement("button") as HTMLButtonElement;
-    updateButton.dataset.id = "updateResource";
+    updateButton.setAttribute("data-action", "update");
     updateButton.classList.add(
       "bi",
       "bi-pencil",
@@ -116,7 +118,7 @@ function displayData(data: Resource[]): void {
     );
 
     const deleteButton = document.createElement("button") as HTMLButtonElement;
-    deleteButton.dataset.id = "deleteResource";
+    deleteButton.setAttribute("data-action", "delete");
     deleteButton.classList.add(
       "bi",
       "bi-trash",
@@ -158,5 +160,26 @@ async function handleFetch(field: string): Promise<Resource[]> {
 
   return data as Resource[];
 }
+
+tableBody.addEventListener("click", async (e: Event) => {
+  const target = e.target as HTMLElement;
+  const row = target.closest("tr") as HTMLTableRowElement;
+
+  if (!row) return;
+
+  const id = row.getAttribute("data-id") as string;
+
+  const data = await getAllData(currentResource as string);
+  const selectedData = data.find((element) => element.id === id) as Resource;
+
+  if (target.closest("button[data-action='update']")) {
+    console.log(selectedData);
+    openModal(selectedData);
+  }
+
+  if (target.closest("[data-action='delete']")) {
+    openModal(selectedData, true);
+  }
+});
 
 export { displayData, handleFetch, addResourceButton };

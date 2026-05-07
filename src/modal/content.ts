@@ -1,5 +1,5 @@
-import type { User, Role, Post, Comment } from "../types.js";
-import { getAllData } from "../services/api.js";
+import type { User, Role, Post, Comment, Resource } from "../types.js";
+import { getAllData, handleDelete } from "../services/api.js";
 import { createForm } from "../components/form.js";
 import { generateTextInput } from "../components/text-input.js";
 import { generateCheckbox } from "../components/checkbox-input.js";
@@ -62,6 +62,22 @@ async function postModal(resource: Post): Promise<HTMLDivElement> {
   const selectUserId = document.createElement("select") as HTMLSelectElement;
   selectUserId.name = "userId";
   const users = (await getAllData("users")) as User[];
+
+  if (users.length === 0) {
+    const usersEmpty = document.createElement("p") as HTMLParagraphElement;
+    usersEmpty.textContent =
+      "Cannot create post without user. Create a user first!";
+    usersEmpty.classList.add(
+      "text-red-700",
+      "text-md",
+      "md:text-lg",
+      "xl:text-2xl",
+      "text-center",
+    );
+    modalContent.appendChild(usersEmpty);
+    return modalContent;
+  }
+
   users.forEach((user) => {
     const option = document.createElement("option") as HTMLOptionElement;
     option.id = user.id as string;
@@ -116,6 +132,22 @@ async function commentModal(resource: Comment): Promise<HTMLDivElement> {
   const selectPostId = document.createElement("select") as HTMLSelectElement;
   selectPostId.name = "postId";
   const posts = (await getAllData("posts")) as Post[];
+
+  if (posts.length === 0) {
+    const postsEmpty = document.createElement("p") as HTMLParagraphElement;
+    postsEmpty.textContent =
+      "Cannot create comment without post. Create a post first!";
+    postsEmpty.classList.add(
+      "text-red-700",
+      "text-md",
+      "md:text-lg",
+      "xl:text-2xl",
+      "text-center",
+    );
+    modalContent.appendChild(postsEmpty);
+    return modalContent;
+  }
+
   posts.forEach((post) => {
     const option = document.createElement("option") as HTMLOptionElement;
     option.id = post.id as string;
@@ -184,4 +216,29 @@ async function roleModal(resource: Role): Promise<HTMLDivElement> {
   return modalContent;
 }
 
-export { userModal, postModal, commentModal, roleModal };
+async function deleteModal(resource: Resource): Promise<void> {
+  const deleteMessage = document.createElement("p") as HTMLParagraphElement;
+  deleteMessage.textContent = `Are you sure you want to delete this ${resource.type}?`;
+  deleteMessage.classList.add(
+    "text-red-700",
+    "text-md",
+    "md:text-lg",
+    "xl:text-2xl",
+    "text-center",
+  );
+
+  const modalSubmitButton = generateSubmitButton(resource);
+  modalSubmitButton.textContent = `Delete ${resource.type}`;
+
+  modalContent.append(deleteMessage, modalSubmitButton);
+
+  modalSubmitButton.addEventListener("click", async () => {
+    await handleDelete(resource);
+    const closeModal = document.querySelector(
+      "#close-modal",
+    ) as HTMLButtonElement;
+    closeModal.click();
+  });
+}
+
+export { userModal, postModal, commentModal, roleModal, deleteModal };

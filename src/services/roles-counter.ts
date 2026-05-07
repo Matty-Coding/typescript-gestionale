@@ -7,6 +7,7 @@ async function syncRoleCount(
   oldRoleId: string = "",
 ): Promise<void> {
   const roles = (await getAllData("roles")) as Role[];
+  console.log("invocata");
 
   for (const role of roles) {
     if (role.id === newRoleId) {

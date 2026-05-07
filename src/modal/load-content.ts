@@ -1,16 +1,28 @@
 import type { Resource, Role, User, Post, Comment } from "../types.js";
-import { postModal, userModal, commentModal, roleModal } from "./content.js";
+import {
+  postModal,
+  userModal,
+  commentModal,
+  roleModal,
+  deleteModal,
+} from "./content.js";
 
 const modal = document.querySelector("#modal") as HTMLDivElement;
 const modalTitle = document.querySelector("#modal-title") as HTMLHeadingElement;
 const modalContent = document.querySelector("#modal-content") as HTMLDivElement;
 
-async function openModal(resource: Resource): Promise<void> {
+async function openModal(resource: Resource, remove?: boolean): Promise<void> {
   modalContent.innerHTML = "";
   modal.classList.remove("hidden");
+  modal.classList.add("flex");
 
   switch (resource.type) {
     case "user":
+      if (remove) {
+        modalTitle.textContent = "Delete user";
+        await deleteModal(resource);
+        return;
+      }
       modalTitle.textContent = `${!resource.id ? "Create" : "Update"} user`;
       await userModal(resource as User);
       break;
