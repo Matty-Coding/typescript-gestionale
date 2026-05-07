@@ -165,11 +165,6 @@ async function roleModal(resource: Role): Promise<HTMLDivElement> {
     resource.name as string,
   );
 
-  const roleCounter = document.createElement("input") as HTMLInputElement;
-  roleCounter.type = "number";
-  roleCounter.name = "count";
-  roleCounter.value = String(resource.count) as string;
-
   const isActiveInput = generateCheckbox(
     resource.isActive,
     "isActive",
@@ -179,9 +174,7 @@ async function roleModal(resource: Role): Promise<HTMLDivElement> {
   // submit button
   const modalSubmitButton = generateSubmitButton(resource);
 
-  if (!resource.id) roleCounter.disabled = true;
-
-  roleForm.append(nameInput, roleCounter, isActiveInput, modalSubmitButton);
+  roleForm.append(nameInput, isActiveInput, modalSubmitButton);
 
   // build modal
   modalContent.appendChild(roleForm);

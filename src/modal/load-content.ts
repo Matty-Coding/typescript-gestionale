@@ -11,7 +11,6 @@ async function openModal(resource: Resource): Promise<void> {
 
   switch (resource.type) {
     case "user":
-      console.log(resource.id);
       modalTitle.textContent = `${!resource.id ? "Create" : "Update"} user`;
       await userModal(resource as User);
       break;
