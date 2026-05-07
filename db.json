@@ -2,6 +2,16 @@
   "users": [],
   "posts": [],
   "comments": [],
-  "roles": [],
-  "$schema": "./node_modules/json-server/schema.json"
+  "roles": [
+    {
+      "name": "ADMIN",
+      "count": 0,
+      "id": "LIbVG6UxCCI"
+    },
+    {
+      "name": "USER",
+      "count": 0,
+      "id": "RCaKtKFSprI"
+    }
+  ]
 }

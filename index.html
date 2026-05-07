@@ -7,6 +7,12 @@
     <!-- Tailwind CSS (CDN integration) -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
+    <!-- Bootstrap Icons (CDN integration) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+
     <title>Vanilla JS Project | Admin Panel</title>
   </head>
   <body
@@ -16,20 +22,7 @@
       class="flex items-center justify-between px-2 py-1 shadow-md sm:justify-center shadow-indigo-500/70"
     >
       <!-- hamburger icon -->
-      <i id="hamburger-icon" class="sm:hidden">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          class="size-6"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </i>
+      <i id="hamburger-icon" class="text-2xl sm:hidden bi bi-list"></i>
 
       <h1 class="text-2xl font-bold text-center md:text-4xl xl:text-6xl">
         Admin Panel
@@ -57,84 +50,33 @@
             <li
               class="flex items-center gap-1 p-1 mt-1 rounded-md hover:ring hover:ring-cyan-500/70 group"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-4 md:size-5 xl:size-6 group-hover:text-cyan-500/80"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
-                />
-              </svg>
-              Users
+              <i class="bi bi-people group-hover:text-cyan-500/80"></i>
+              <span>Users</span>
             </li>
 
             <!-- posts -->
             <li
               class="flex items-center gap-1 p-1 rounded-md group hover:ring hover:ring-cyan-500/70"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-4 md:size-5 xl:size-6 group-hover:text-cyan-500/80"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
-                />
-              </svg>
-              Posts
+              <i class="bi bi-book group-hover:text-cyan-500/80"></i>
+              <span>Posts</span>
             </li>
 
             <!-- comments -->
             <li
               class="flex items-center gap-1 p-1 rounded-md group hover:ring hover:ring-cyan-500/70"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-4 md:size-5 xl:size-6 group-hover:text-cyan-500/80"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
-                />
-              </svg>
-              Comments
+              <i class="bi bi-chat-dots group-hover:text-cyan-500/80"></i>
+              <span>Comments</span>
             </li>
 
             <!-- roles -->
             <li
               class="flex items-center gap-1 p-1 rounded-md group hover:ring hover:ring-cyan-500/70"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-4 md:size-5 xl:size-6 group-hover:text-cyan-500/80"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M10.05 4.575a1.575 1.575 0 1 0-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 0 1 3.15 0v1.5m-3.15 0 .075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 0 1 3.15 0V15M6.9 7.575a1.575 1.575 0 1 0-3.15 0v8.175a6.75 6.75 0 0 0 6.75 6.75h2.018a5.25 5.25 0 0 0 3.712-1.538l1.732-1.732a5.25 5.25 0 0 0 1.538-3.712l.003-2.024a.668.668 0 0 1 .198-.471 1.575 1.575 0 1 0-2.228-2.228 3.818 3.818 0 0 0-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0 1 16.35 15m.002 0h-.002"
-                />
-              </svg>
-              Roles
+              <i class="bi bi-person-lock group-hover:text-cyan-500/80"
+              "></i>
+              <span>Roles</span>
             </li>
           </ul>
 
@@ -154,31 +96,18 @@
               placeholder="Search..."
               class="w-full px-2 py-1 border-b rounded-lg placeholder:italic placeholder:text-slate-400 md:text-lg xl:text-xl focus:outline-none focus:ring focus:ring-emerald-500/80 border-emerald-500/80"
             />
-            <button onclick="searchInput()">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="absolute cursor-pointer top-2 size-4 md:size-5 xl:size-6 right-1 hover:text-emerald-500/80"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
+            <button type="submit" class="absolute top-1 right-3">
+              <i class="cursor-pointer bi bi-search hover:text-emerald-500/80"></i>
             </button>
           </div>
 
           <select
             name="field-filter"
             id="select-filter"
-            class="w-full px-2 py-1 mt-2 text-center border-b rounded-lg cursor-pointer hover:text-emerald-500/80 bg-slate-950/90 border-emerald-500/80"
+            class="w-full px-2 py-1 mt-2 text-center border-b rounded-lg cursor-pointer group max-h-10 hover:text-emerald-500/80 bg-slate-950/90 border-emerald-500/80"
           >
-            <option class="group-hover:cursor-pointer" value="">
-              Seleziona
+            <option class="" value="">
+              Select
             </option>
           </select>
 
@@ -193,20 +122,7 @@
             id="trash-icon"
             class="flex items-center w-full gap-1 p-1 py-1 mt-2 rounded-md cursor-pointer group hover:ring hover:ring-red-500/80 text-md md:text-lg xl:text-2xl"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-4 md:size-5 xl:size-6 group-hover:text-red-500/80"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-              />
-            </svg>
+            <i class="bi bi-trash group-hover:text-red-500/80"></i>
             Trash
           </button>
         </nav>
@@ -224,20 +140,7 @@
             id="add-resource"
             class="hidden p-1 text-black rounded-md cursor-pointer bg-lime-300/80 text-md md:text-lg xl:text-2xl hover:bg-lime-500/80 hover:text-slate-950"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-4 md:size-5 xl:size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
+            <i class="bi bi-plus-lg"></i>
           </button>
         </div>
 
@@ -245,26 +148,11 @@
           id="statement"
           class="flex items-center justify-center gap-2 text-sm md:text-lg xl:text-2xl"
         >
-          Loading data
-          <i
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-4 md:size-5 xl:size-6 animate-spin"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
-              />
-            </svg>
-          </i>
+          <span>Loading data</span>
+          <i class="animate-spin bi bi-arrow-repeat text-md md:text-lg xl:text-2xl"></i>
         </p>
 
-        <table class="w-full overflow-auto text-sm md:text-lg xl:text-2xl">
+        <table id="table-data" class="w-full overflow-auto text-sm md:text-lg xl:text-2xl">
           <thead id="table-head"></thead>
           <tbody id="table-body"></tbody>
         </table>
@@ -283,24 +171,8 @@
         <!-- modal title + close button -->
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-xl font-bold text-indigo-400" id="modal-title"></h3>
-          <button
-            onclick="closeModal()"
-            class="p-1 rounded-full hover:bg-slate-800"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="size-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+          <button id="close-modal" class="p-2 rounded-full cursor-pointer group hover:bg-slate-800">
+            <i class="bi bi-x-lg group-hover:text-red-500/90"></i>
           </button>
         </div>
 
