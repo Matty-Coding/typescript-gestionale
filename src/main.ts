@@ -3,7 +3,7 @@ import {
   handleFetch,
   addResourceButton,
 } from "./ui-management.js";
-import { openModal, openTrashModal } from "./modal/load-content.js";
+import { openModal, openTrashModal } from "./components/modal/load-content.js";
 import type { Resource } from "./types.js";
 import { closeModal } from "./utils/close-modal.js";
 import { getAllData } from "./services/api.js";
@@ -102,9 +102,10 @@ tableBody.addEventListener("click", async (event: Event) => {
 
   const data = await getAllData(currentResource as string);
   const activeData = data.filter((element) => element.isActive === true);
-  const selectedData = activeData.find(
-    (element) => element.id === id,
-  ) as Resource;
+  const selectedData = {
+    ...activeData.find((element) => element.id === id),
+    type: currentResource.slice(0, -1),
+  } as Resource;
 
   if (target.closest("button[data-action='update']")) {
     openModal(selectedData);

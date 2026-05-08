@@ -1,21 +1,40 @@
-import type { User, Role, Post, Comment, Resource } from "../types.js";
+import type { User, Role, Post, Comment, Resource } from "../../types.js";
 import {
   getAllData,
   hardDelete,
   handleUpdate,
   softDelete,
-} from "../services/api.js";
-import { createForm } from "../components/form.js";
-import { generateTextInput } from "../components/text-input.js";
-import { generateSubmitButton } from "../components/modal-submit-button.js";
-import { handleFormSubmit } from "../services/resource-submit.js";
-import { displayData, handleFetch } from "../ui-management.js";
-import { generateTextArea } from "../components/textarea-input.js";
+} from "../../services/api.js";
+import { createForm } from "../form.js";
+import { generateTextInput } from "../text-input.js";
+import { generateSubmitButton } from "../modal-submit-button.js";
+import { handleFormSubmit } from "../../services/resource-submit.js";
+import { displayData, handleFetch } from "../../ui-management.js";
+import { generateTextArea } from "../textarea-input.js";
+import { syncRoleCount } from "../../services/roles-counter.js";
+import { closeModal } from "../../utils/close-modal.js";
+import { currentResource } from "../../main.js";
 
 const modalContent = document.querySelector("#modal-content") as HTMLDivElement;
 
 async function userModal(resource: User): Promise<HTMLDivElement> {
   const roles = (await getAllData("roles")) as Role[];
+  const activeRoles = roles.filter((role) => role.isActive);
+
+  if (activeRoles.length === 0) {
+    const rolesEmpty = document.createElement("p") as HTMLParagraphElement;
+    rolesEmpty.textContent =
+      "Cannot create post without user. Create a user first!";
+    rolesEmpty.classList.add(
+      "text-red-700",
+      "text-md",
+      "md:text-lg",
+      "xl:text-2xl",
+      "text-center",
+    );
+    modalContent.appendChild(rolesEmpty);
+    return modalContent;
+  }
 
   // form
   const userForm = createForm();
@@ -36,6 +55,7 @@ async function userModal(resource: User): Promise<HTMLDivElement> {
     option.id = element.id as string;
     option.value = element.id as string;
     option.textContent = element.name as string;
+    option.selected = element.id === resource.roleId;
     roleIdInput.appendChild(option);
   });
 
@@ -61,8 +81,9 @@ async function postModal(resource: Post): Promise<HTMLDivElement> {
   const selectUserId = document.createElement("select") as HTMLSelectElement;
   selectUserId.name = "userId";
   const users = (await getAllData("users")) as User[];
+  const activeUsers = users.filter((user) => user.isActive);
 
-  if (users.length === 0) {
+  if (activeUsers.length === 0) {
     const usersEmpty = document.createElement("p") as HTMLParagraphElement;
     usersEmpty.textContent =
       "Cannot create post without user. Create a user first!";
@@ -82,6 +103,7 @@ async function postModal(resource: Post): Promise<HTMLDivElement> {
     option.id = user.id as string;
     option.value = user.id as string;
     option.textContent = user.username as string;
+    option.selected = user.id === resource.userId;
     selectUserId.appendChild(option);
   });
 
@@ -119,8 +141,9 @@ async function commentModal(resource: Comment): Promise<HTMLDivElement> {
   const selectPostId = document.createElement("select") as HTMLSelectElement;
   selectPostId.name = "postId";
   const posts = (await getAllData("posts")) as Post[];
+  const activePosts = posts.filter((post) => post.isActive);
 
-  if (posts.length === 0) {
+  if (activePosts.length === 0) {
     const postsEmpty = document.createElement("p") as HTMLParagraphElement;
     postsEmpty.textContent =
       "Cannot create comment without post. Create a post first!";
@@ -140,6 +163,7 @@ async function commentModal(resource: Comment): Promise<HTMLDivElement> {
     option.id = post.id as string;
     option.value = post.id as string;
     option.textContent = post.title as string;
+    option.selected = post.id === resource.postId;
     selectPostId.appendChild(option);
   });
 
@@ -201,11 +225,10 @@ async function moveIntoTrash(resource: Resource): Promise<HTMLDivElement> {
   const modalSubmitButton = generateSubmitButton(resource);
   modalSubmitButton.textContent = "Delete";
   modalSubmitButton.addEventListener("click", async () => {
-    await softDelete(resource);
-    const { currentResource } = await import("../main.js");
+    await softDelete(resource, currentResource);
     const updated = await handleFetch(currentResource);
-    displayData(updated);
-    (document.querySelector("#close-modal") as HTMLButtonElement).click();
+    await displayData(updated);
+    closeModal();
   });
 
   modalContent.append(deleteMessage, modalSubmitButton);
@@ -251,12 +274,17 @@ async function trashModal(resources: Resource[]): Promise<void> {
       "hover:bg-green-400/80",
       "hover:text-slate-950",
     );
-    restoreButton.addEventListener("click", () =>
-      handleUpdate({
-        ...element,
-        isActive: true,
-      }),
-    );
+
+    restoreButton.addEventListener("click", async () => {
+      // sync role count after restore resource
+      if (element.type === "user") {
+        await syncRoleCount((element as User).roleId, "");
+      }
+      await handleUpdate({ ...element, isActive: true }, currentResource);
+      const updated = await handleFetch(currentResource);
+      await displayData(updated);
+      closeModal();
+    });
     row.appendChild(restoreButton);
 
     const deleteButton = document.createElement("button") as HTMLButtonElement;
@@ -274,7 +302,12 @@ async function trashModal(resources: Resource[]): Promise<void> {
       "hover:bg-red-400/80",
       "hover:text-slate-950",
     );
-    deleteButton.addEventListener("click", () => hardDelete(element));
+    deleteButton.addEventListener("click", async () => {
+      hardDelete(element, currentResource);
+      const updated = await handleFetch(currentResource);
+      await displayData(updated);
+      closeModal();
+    });
     row.appendChild(deleteButton);
 
     modalContent.appendChild(row);

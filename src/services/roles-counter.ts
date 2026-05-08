@@ -10,11 +10,9 @@ async function syncRoleCount(
 
   for (const role of roles) {
     if (role.id === newRoleId) {
-      role.count += 1;
-      await handleUpdate(role);
+      await handleUpdate({ ...role, count: role.count + 1 }, "role");
     } else if (role.id === oldRoleId) {
-      role.count -= 1;
-      await handleUpdate(role);
+      await handleUpdate({ ...role, count: role.count - 1 }, "role");
     }
   }
 }

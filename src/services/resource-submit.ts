@@ -3,11 +3,11 @@ import type { Resource, User, Post, Comment, Role } from "../types.js";
 import { displayData, handleFetch } from "../ui-management.js";
 import { closeModal } from "../utils/close-modal.js";
 
-async function updateOrCreate(resource: Resource): Promise<void> {
+async function updateOrCreate(resource: Resource, type: string): Promise<void> {
   if (resource.id) {
-    await handleUpdate(resource);
+    await handleUpdate(resource, type);
   } else {
-    await handleCreate(resource);
+    await handleCreate(resource, type);
   }
 }
 
@@ -37,7 +37,7 @@ async function handleFormSubmit(
           isActive: true,
         };
 
-        await updateOrCreate(user);
+        await updateOrCreate(user, "users");
         break;
       }
 
@@ -60,7 +60,7 @@ async function handleFormSubmit(
           userId: userId,
         };
 
-        await updateOrCreate(post);
+        await updateOrCreate(post, "posts");
         break;
       }
 
@@ -80,7 +80,7 @@ async function handleFormSubmit(
           postId: postId,
         };
 
-        await updateOrCreate(comment);
+        await updateOrCreate(comment, "comments");
         break;
       }
 
@@ -96,7 +96,7 @@ async function handleFormSubmit(
           isActive: true,
         };
 
-        await updateOrCreate(role);
+        await updateOrCreate(role, "roles");
 
         break;
       }
@@ -107,7 +107,7 @@ async function handleFormSubmit(
 
     const resources = await handleFetch(`${resource.type}s`);
 
-    displayData(resources);
+    await displayData(resources);
 
     closeModal();
   });

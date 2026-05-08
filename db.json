@@ -1,27 +1,38 @@
 {
   "users": [
     {
-      "id": "Q1lEcvQUWK0",
+      "id": "FUvrKF1A5OU",
       "type": "user",
-      "username": "asdf",
+      "username": "sdfg",
       "roleId": "5VInBVZ0R34",
-      "isActive": true
+      "isActive": false
     }
   ],
-  "posts": [],
+  "posts": [
+    {
+      "id": "dP_vuSepuF0",
+      "type": "post",
+      "title": "asdf",
+      "content": "asdf",
+      "isActive": false,
+      "userId": "FUvrKF1A5OU"
+    }
+  ],
   "comments": [],
   "roles": [
     {
       "name": "USER",
       "count": 0,
       "isActive": true,
-      "id": "5VInBVZ0R34"
+      "id": "5VInBVZ0R34",
+      "type": "role"
     },
     {
       "name": "ADMIN",
       "count": 0,
       "isActive": true,
-      "id": "Umw3FQuq4JQ"
+      "id": "Umw3FQuq4JQ",
+      "type": "role"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

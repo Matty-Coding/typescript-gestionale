@@ -6,7 +6,7 @@ const localhost: string = "http://localhost:3000";
 async function getAllData(field: string): Promise<Resource[]> {
   try {
     const response: Response = await fetch(`${localhost}/${field}`);
-    return response.json();
+    return await response.json();
   } catch (error) {
     console.error(`Network error: ${error}`);
     return [];
@@ -14,18 +14,18 @@ async function getAllData(field: string): Promise<Resource[]> {
 }
 
 // handle resources api
-async function handleCreate(resource: Resource): Promise<Resource | undefined> {
+async function handleCreate(
+  resource: Resource,
+  type: string,
+): Promise<Resource | undefined> {
   try {
-    const response = await fetch(
-      `${localhost}/${resource.type.toLowerCase()}s`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(resource),
+    const response = await fetch(`${localhost}/${type.toLowerCase()}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify(resource),
+    });
 
     if (response.ok) {
       const data = await response.json();
@@ -39,18 +39,21 @@ async function handleCreate(resource: Resource): Promise<Resource | undefined> {
 }
 
 // manage update resources
-async function handleUpdate(resource: Resource): Promise<Resource | undefined> {
+async function handleUpdate(
+  resource: Resource,
+  type: string,
+): Promise<Resource | undefined> {
   try {
     let oldUser: User | null = null;
 
     // take oldUser before sending data
-    if (resource.type === "user") {
+    if (type === "user") {
       const data = (await getAllData("users")) as User[];
       oldUser = data.find((u) => u.id === resource.id) as User;
     }
 
     const response = await fetch(
-      `${localhost}/${resource.type.toLowerCase()}s/${resource.id}`,
+      `${localhost}/${type.toLowerCase()}/${resource.id}`,
       {
         method: "PATCH",
         headers: {
@@ -75,14 +78,21 @@ async function handleUpdate(resource: Resource): Promise<Resource | undefined> {
 }
 
 // move resource into trash
-async function softDelete(resource: Resource): Promise<Resource | undefined> {
+async function softDelete(
+  resource: Resource,
+  type: string,
+): Promise<Resource | undefined> {
+  // update role after delete resource
+  if (type === "user") {
+    await syncRoleCount("", (resource as User).roleId);
+  }
   const deactivatedResource = { ...resource, isActive: false };
-  return await handleUpdate(deactivatedResource);
+  return await handleUpdate(deactivatedResource, type);
 }
 
 // remove resource from fake database
-async function hardDelete(resource: Resource): Promise<void> {
-  await fetch(`${localhost}/${resource.type}s/${resource.id}`, {
+async function hardDelete(resource: Resource, type: string): Promise<void> {
+  await fetch(`${localhost}/${type.toLowerCase()}/${resource.id}`, {
     method: "DELETE",
   });
 }

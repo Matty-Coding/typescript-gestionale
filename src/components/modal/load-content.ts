@@ -1,4 +1,4 @@
-import type { Resource, Role, User, Post, Comment } from "../types.js";
+import type { Resource, Role, User, Post, Comment } from "../../types.js";
 import {
   postModal,
   userModal,
