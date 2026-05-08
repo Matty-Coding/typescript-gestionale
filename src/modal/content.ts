@@ -1,10 +1,16 @@
 import type { User, Role, Post, Comment, Resource } from "../types.js";
-import { getAllData, handleDelete } from "../services/api.js";
+import {
+  getAllData,
+  hardDelete,
+  handleUpdate,
+  softDelete,
+} from "../services/api.js";
 import { createForm } from "../components/form.js";
 import { generateTextInput } from "../components/text-input.js";
 import { generateCheckbox } from "../components/checkbox-input.js";
 import { generateSubmitButton } from "../components/modal-submit-button.js";
 import { handleFormSubmit } from "../services/resource-submit.js";
+import { displayData, handleFetch } from "../ui-management.js";
 
 const modalContent = document.querySelector("#modal-content") as HTMLDivElement;
 
@@ -49,7 +55,7 @@ async function userModal(resource: User): Promise<HTMLDivElement> {
   modalContent.appendChild(userForm);
 
   // listener submit form
-  handleFormSubmit(resource, userForm);
+  handleFormSubmit(resource, userForm, modalSubmitButton);
 
   return modalContent;
 }
@@ -119,7 +125,7 @@ async function postModal(resource: Post): Promise<HTMLDivElement> {
   // build modal
   modalContent.appendChild(postForm);
 
-  handleFormSubmit(resource, postForm);
+  handleFormSubmit(resource, postForm, modalSubmitButton);
 
   return modalContent;
 }
@@ -181,7 +187,7 @@ async function commentModal(resource: Comment): Promise<HTMLDivElement> {
   // build modal
   modalContent.appendChild(commentForm);
 
-  handleFormSubmit(resource, commentForm);
+  handleFormSubmit(resource, commentForm, modalSubmitButton);
 
   return modalContent;
 }
@@ -211,34 +217,111 @@ async function roleModal(resource: Role): Promise<HTMLDivElement> {
   // build modal
   modalContent.appendChild(roleForm);
 
-  handleFormSubmit(resource, roleForm);
+  handleFormSubmit(resource, roleForm, modalSubmitButton);
 
   return modalContent;
 }
 
-async function deleteModal(resource: Resource): Promise<void> {
+async function moveIntoTrash(resource: Resource): Promise<HTMLDivElement> {
   const deleteMessage = document.createElement("p") as HTMLParagraphElement;
-  deleteMessage.textContent = `Are you sure you want to delete this ${resource.type}?`;
   deleteMessage.classList.add(
-    "text-red-700",
+    "text-center",
+    "text-red-600",
     "text-md",
     "md:text-lg",
     "xl:text-2xl",
-    "text-center",
   );
 
+  deleteMessage.textContent = `Are you sure you want to delete ${resource.id}?`;
+
   const modalSubmitButton = generateSubmitButton(resource);
-  modalSubmitButton.textContent = `Delete ${resource.type}`;
+  modalSubmitButton.textContent = "Delete";
+  modalSubmitButton.addEventListener("click", async () => {
+    await softDelete(resource);
+    const { currentResource } = await import("../main.js");
+    const updated = await handleFetch(currentResource);
+    displayData(updated);
+    (document.querySelector("#close-modal") as HTMLButtonElement).click();
+  });
 
   modalContent.append(deleteMessage, modalSubmitButton);
+  return modalContent;
+}
 
-  modalSubmitButton.addEventListener("click", async () => {
-    await handleDelete(resource);
-    const closeModal = document.querySelector(
-      "#close-modal",
-    ) as HTMLButtonElement;
-    closeModal.click();
+// sistemare delete
+async function trashModal(resources: Resource[]): Promise<void> {
+  if (resources.length === 0) {
+    const emptyTrash = document.createElement("p") as HTMLParagraphElement;
+    emptyTrash.textContent = "Trash is empty for this resource!";
+    emptyTrash.classList.add(
+      "text-md",
+      "md:text-lg",
+      "xl:text-2xl",
+      "text-center",
+    );
+    modalContent.appendChild(emptyTrash);
+    return;
+  }
+
+  resources.forEach((element) => {
+    const row = document.createElement("div") as HTMLDivElement;
+    row.classList.add("flex", "items-center", "justify-between");
+
+    const text = document.createElement("p") as HTMLParagraphElement;
+    text.textContent = element.id as string;
+    text.classList.add("text-md", "md:text-lg", "xl:text-2xl");
+    row.appendChild(text);
+
+    const restoreButton = document.createElement("button") as HTMLButtonElement;
+    restoreButton.type = "button";
+    restoreButton.textContent = "Restore";
+    restoreButton.classList.add(
+      "p-1",
+      "text-black",
+      "rounded-md",
+      "cursor-pointer",
+      "bg-green-400/90",
+      "text-md",
+      "md:text-lg",
+      "xl:text-2xl",
+      "hover:bg-green-400/80",
+      "hover:text-slate-950",
+    );
+    restoreButton.addEventListener("click", () =>
+      handleUpdate({
+        ...element,
+        isActive: true,
+      }),
+    );
+    row.appendChild(restoreButton);
+
+    const deleteButton = document.createElement("button") as HTMLButtonElement;
+    deleteButton.type = "button";
+    deleteButton.textContent = "Delete";
+    deleteButton.classList.add(
+      "p-1",
+      "text-black",
+      "rounded-md",
+      "cursor-pointer",
+      "bg-red-400/90",
+      "text-md",
+      "md:text-lg",
+      "xl:text-2xl",
+      "hover:bg-red-400/80",
+      "hover:text-slate-950",
+    );
+    deleteButton.addEventListener("click", () => hardDelete(element));
+    row.appendChild(deleteButton);
+
+    modalContent.appendChild(row);
   });
 }
 
-export { userModal, postModal, commentModal, roleModal, deleteModal };
+export {
+  userModal,
+  postModal,
+  commentModal,
+  roleModal,
+  trashModal,
+  moveIntoTrash,
+};

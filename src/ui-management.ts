@@ -1,8 +1,6 @@
 import type { BaseInterface, Resource } from "./types.js";
 import { getAllData } from "./services/api.js";
 import { capitalize } from "./utils/capitalize.js";
-import { currentResource } from "./main.js";
-import { openModal } from "./modal/load-content.js";
 
 // =============  selectors  ===============
 const dashboardTitle = document.querySelector(
@@ -160,26 +158,5 @@ async function handleFetch(field: string): Promise<Resource[]> {
 
   return data as Resource[];
 }
-
-tableBody.addEventListener("click", async (e: Event) => {
-  const target = e.target as HTMLElement;
-  const row = target.closest("tr") as HTMLTableRowElement;
-
-  if (!row) return;
-
-  const id = row.getAttribute("data-id") as string;
-
-  const data = await getAllData(currentResource as string);
-  const selectedData = data.find((element) => element.id === id) as Resource;
-
-  if (target.closest("button[data-action='update']")) {
-    console.log(selectedData);
-    openModal(selectedData);
-  }
-
-  if (target.closest("[data-action='delete']")) {
-    openModal(selectedData, true);
-  }
-});
 
 export { displayData, handleFetch, addResourceButton };

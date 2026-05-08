@@ -71,15 +71,24 @@ async function handleUpdate(resource: Resource): Promise<Resource | undefined> {
   }
 }
 
-async function handleDelete(resource: Resource): Promise<boolean | undefined> {
-  try {
-    await fetch(`${localhost}/${resource.type.toLowerCase()}s/${resource.id}`, {
-      method: "DELETE",
-    });
-    return true;
-  } catch (error) {
-    console.error(error);
-  }
+// move resource into trash
+async function softDelete(resource: Resource): Promise<Resource | undefined> {
+  const deactivatedResource = { ...resource, isActive: false };
+  return await handleUpdate(deactivatedResource);
 }
 
-export { getAllData, handleCreate, handleUpdate, localhost, handleDelete };
+// remove resource from fake database
+async function hardDelete(resource: Resource): Promise<void> {
+  await fetch(`${localhost}/${resource.type}s/${resource.id}`, {
+    method: "DELETE",
+  });
+}
+
+export {
+  getAllData,
+  handleCreate,
+  handleUpdate,
+  localhost,
+  softDelete,
+  hardDelete,
+};

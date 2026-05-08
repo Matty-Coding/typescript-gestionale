@@ -6,10 +6,34 @@
       "username": "sdfg",
       "roleId": "LIbVG6UxCCI",
       "isActive": true
+    },
+    {
+      "id": "hbthfH2a6Pk",
+      "type": "user",
+      "username": "asdfadsfas",
+      "roleId": "RCaKtKFSprI",
+      "isActive": true
     }
   ],
-  "posts": [],
-  "comments": [],
+  "posts": [
+    {
+      "id": "Hxl02JSninE",
+      "type": "post",
+      "title": "asfd",
+      "content": "adsf",
+      "isActive": true,
+      "userId": "6eUUPs3rqUE"
+    }
+  ],
+  "comments": [
+    {
+      "id": "SPJ8f9XAU-M",
+      "type": "comment",
+      "content": "adsfasga",
+      "isActive": true,
+      "postId": "Hxl02JSninE"
+    }
+  ],
   "roles": [
     {
       "name": "ADMIN",

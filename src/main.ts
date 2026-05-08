@@ -3,15 +3,19 @@ import {
   handleFetch,
   addResourceButton,
 } from "./ui-management.js";
-import { openModal } from "./modal/load-content.js";
+import { openModal, openTrashModal } from "./modal/load-content.js";
 import type { Resource } from "./types.js";
 import { closeModal } from "./utils/close-modal.js";
+import { getAllData } from "./services/api.js";
 
 export let currentResource: string = "users";
 
 // toggle sidebar
 const sideBar = document.querySelector("aside") as HTMLElement;
 const hamburgerMenu = document.querySelector("#hamburger-icon") as HTMLElement;
+const tableBody = document.querySelector(
+  "#table-body",
+) as HTMLTableSectionElement;
 
 hamburgerMenu.onclick = function (): void {
   sideBar.classList.toggle("-translate-x-[105%]");
@@ -72,5 +76,40 @@ addResourceButton.addEventListener("click", (): void => {
   openModal(templates[currentResource] as Resource);
 });
 
+// listener to open trash
+const trashButton = document.querySelector("#trash") as HTMLButtonElement;
+
+trashButton.addEventListener("click", async (): Promise<void> => {
+  const data = await getAllData(currentResource as string);
+
+  // filter only inactive resources
+  const deleted = data.filter((element) => !element.isActive);
+  openTrashModal(deleted);
+});
+
 // listener to close modal
 document.querySelector("#close-modal")?.addEventListener("click", closeModal);
+
+// listener to open modal on table
+tableBody.addEventListener("click", async (event: Event) => {
+  const target = event.target as HTMLElement;
+  const row = target.closest("tr") as HTMLTableRowElement;
+
+  if (!row) return;
+
+  const id = row.getAttribute("data-id") as string;
+
+  const data = await getAllData(currentResource as string);
+  const activeData = data.filter((element) => element.isActive);
+  const selectedData = activeData.find(
+    (element) => element.id === id,
+  ) as Resource;
+
+  if (target.closest("button[data-action='update']")) {
+    openModal(selectedData);
+  }
+
+  if (target.closest("[data-action='delete']")) {
+    openModal(selectedData, true);
+  }
+});

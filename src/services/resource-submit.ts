@@ -12,7 +12,11 @@ async function updateOrCreate(resource: Resource): Promise<void> {
 
 const closeModal = document.querySelector("#close-modal") as HTMLButtonElement;
 
-async function handleFormSubmit(resource: Resource, form: HTMLFormElement) {
+async function handleFormSubmit(
+  resource: Resource,
+  form: HTMLFormElement,
+  button: HTMLButtonElement,
+): Promise<void> {
   form.addEventListener("submit", async (event): Promise<void> => {
     event.preventDefault();
 
@@ -25,6 +29,7 @@ async function handleFormSubmit(resource: Resource, form: HTMLFormElement) {
 
         // validation empty username
         if (!username) return;
+        button.disabled = true;
 
         const user: User = {
           id: resource.id,
@@ -47,6 +52,7 @@ async function handleFormSubmit(resource: Resource, form: HTMLFormElement) {
 
         // validation empty value
         if (!title || !content || !userId) return;
+        button.disabled = true;
 
         const post: Post = {
           id: resource.id,
@@ -63,16 +69,19 @@ async function handleFormSubmit(resource: Resource, form: HTMLFormElement) {
 
       case "comment": {
         const commentData = new FormData(form);
-        const contentComment = commentData.get("content") as string;
-        const isActiveComment = commentData.get("isActive") as string;
-        const userId = commentData.get("userId") as string;
+        const contentComment = (commentData.get("content") as string).trim();
+        const isActiveComment = (commentData.get("isActive") as string).trim();
+        const postId = (commentData.get("postId") as string).trim();
+
+        if (!contentComment || !postId) return;
+        button.disabled = true;
 
         const comment: Comment = {
           id: resource.id,
           type: "comment",
           content: contentComment,
           isActive: isActiveComment === "on" ? true : false,
-          postId: userId,
+          postId: postId,
         };
 
         updateOrCreate(comment);
@@ -100,11 +109,11 @@ async function handleFormSubmit(resource: Resource, form: HTMLFormElement) {
         break;
     }
 
-    const resources = await handleFetch(resource.type);
+    const resources = await handleFetch(`${resource.type}s`);
     displayData(resources);
 
     closeModal.click();
   });
 }
 
-export { updateOrCreate, handleFormSubmit, closeModal };
+export { updateOrCreate, handleFormSubmit };
