@@ -8,7 +8,7 @@ tailwind.config.js
 task.txt
 
 # js folder compiled by tsc
-/dist/
+/public/dist/
 
 # typescript json settings
 tsconfig.json
