@@ -76,11 +76,23 @@ function displayData(data: Resource[]): void {
           "border-collapse",
           "text-center",
           "p-1",
+          "max-w-20",
           "truncate",
-          "text-nowrap",
         );
 
-        dataCell.textContent = value as string;
+        // fill dataCell with icon if value = bool
+        if (typeof value === "boolean") {
+          const icon = document.createElement("i");
+          icon.classList.add(
+            "bi",
+            value ? "bi-check-circle-fill" : "bi-x-circle-fill",
+            value ? "text-green-400" : "text-red-400",
+          );
+          dataCell.appendChild(icon);
+        } else {
+          dataCell.textContent = value as string;
+        }
+
         dataRow.appendChild(dataCell);
       }
     }
@@ -141,22 +153,22 @@ function displayData(data: Resource[]): void {
 
 async function handleFetch(field: string): Promise<Resource[]> {
   const data = await getAllData(field);
+  const activeData = data.filter((element) => element.isActive);
 
   // empty statement or show data
   if (data.length === 0) {
-    dashboardTitle.textContent = "";
     tableHead.classList.add("hidden");
     tableBody.classList.add("hidden");
     statement.classList.remove("hidden");
   } else {
-    dashboardTitle.textContent = capitalize(field);
     addResourceButton.classList.remove("hidden");
     tableHead.classList.remove("hidden");
     tableBody.classList.remove("hidden");
     statement.classList.add("hidden");
   }
+  dashboardTitle.textContent = capitalize(field);
 
-  return data as Resource[];
+  return activeData as Resource[];
 }
 
 export { displayData, handleFetch, addResourceButton };

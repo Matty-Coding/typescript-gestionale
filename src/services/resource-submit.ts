@@ -1,6 +1,7 @@
 import { handleCreate, handleUpdate } from "./api.js";
-import type { Post, Resource, User, Comment, Role } from "../types.js";
+import type { Resource, User, Post, Comment, Role } from "../types.js";
 import { displayData, handleFetch } from "../ui-management.js";
+import { closeModal } from "../utils/close-modal.js";
 
 async function updateOrCreate(resource: Resource): Promise<void> {
   if (resource.id) {
@@ -9,8 +10,6 @@ async function updateOrCreate(resource: Resource): Promise<void> {
     await handleCreate(resource);
   }
 }
-
-const closeModal = document.querySelector("#close-modal") as HTMLButtonElement;
 
 async function handleFormSubmit(
   resource: Resource,
@@ -25,7 +24,6 @@ async function handleFormSubmit(
         const data = new FormData(form);
         const username = (data.get("username") as string).trim();
         const roleId = (data.get("roleId") as string).trim();
-        const isActive = (data.get("isActive") as string).trim();
 
         // validation empty username
         if (!username) return;
@@ -36,10 +34,10 @@ async function handleFormSubmit(
           type: "user",
           username: username,
           roleId: roleId,
-          isActive: isActive === "on" ? true : false,
+          isActive: true,
         };
 
-        updateOrCreate(user);
+        await updateOrCreate(user);
         break;
       }
 
@@ -47,7 +45,6 @@ async function handleFormSubmit(
         const postData = new FormData(form);
         const title = (postData.get("title") as string).trim();
         const content = (postData.get("content") as string).trim();
-        const isActivePost = (postData.get("isActive") as string).trim();
         const userId = (postData.get("userId") as string).trim();
 
         // validation empty value
@@ -59,18 +56,17 @@ async function handleFormSubmit(
           type: "post",
           title: title,
           content: content,
-          isActive: isActivePost === "on" ? true : false,
+          isActive: true,
           userId: userId,
         };
 
-        updateOrCreate(post);
+        await updateOrCreate(post);
         break;
       }
 
       case "comment": {
         const commentData = new FormData(form);
         const contentComment = (commentData.get("content") as string).trim();
-        const isActiveComment = (commentData.get("isActive") as string).trim();
         const postId = (commentData.get("postId") as string).trim();
 
         if (!contentComment || !postId) return;
@@ -80,28 +76,28 @@ async function handleFormSubmit(
           id: resource.id,
           type: "comment",
           content: contentComment,
-          isActive: isActiveComment === "on" ? true : false,
+          isActive: true,
           postId: postId,
         };
 
-        updateOrCreate(comment);
+        await updateOrCreate(comment);
         break;
       }
 
       case "role": {
         const roleData = new FormData(form);
         const name = roleData.get("name") as string;
-        const isActiveRole = roleData.get("isActive") as string;
 
         const role: Role = {
           id: resource.id,
           type: "role",
           name: name,
           count: 0,
-          isActive: isActiveRole === "on" ? true : false,
+          isActive: true,
         };
 
-        updateOrCreate(role);
+        await updateOrCreate(role);
+
         break;
       }
 
@@ -110,9 +106,10 @@ async function handleFormSubmit(
     }
 
     const resources = await handleFetch(`${resource.type}s`);
+
     displayData(resources);
 
-    closeModal.click();
+    closeModal();
   });
 }
 

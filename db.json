@@ -1,49 +1,27 @@
 {
   "users": [
     {
-      "id": "6eUUPs3rqUE",
+      "id": "YQZP_GBBkns",
       "type": "user",
-      "username": "sdfg",
-      "roleId": "LIbVG6UxCCI",
-      "isActive": true
-    },
-    {
-      "id": "hbthfH2a6Pk",
-      "type": "user",
-      "username": "asdfadsfas",
-      "roleId": "RCaKtKFSprI",
+      "username": "nome",
+      "roleId": "5VInBVZ0R34",
       "isActive": true
     }
   ],
-  "posts": [
-    {
-      "id": "Hxl02JSninE",
-      "type": "post",
-      "title": "asfd",
-      "content": "adsf",
-      "isActive": true,
-      "userId": "6eUUPs3rqUE"
-    }
-  ],
-  "comments": [
-    {
-      "id": "SPJ8f9XAU-M",
-      "type": "comment",
-      "content": "adsfasga",
-      "isActive": true,
-      "postId": "Hxl02JSninE"
-    }
-  ],
+  "posts": [],
+  "comments": [],
   "roles": [
-    {
-      "name": "ADMIN",
-      "count": 0,
-      "id": "LIbVG6UxCCI"
-    },
     {
       "name": "USER",
       "count": 0,
-      "id": "RCaKtKFSprI"
+      "isActive": true,
+      "id": "5VInBVZ0R34"
+    },
+    {
+      "name": "ADMIN",
+      "count": 0,
+      "isActive": true,
+      "id": "Umw3FQuq4JQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

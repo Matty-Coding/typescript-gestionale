@@ -29,7 +29,8 @@ async function handleCreate(resource: Resource): Promise<Resource | undefined> {
 
     if (response.ok) {
       const data = await response.json();
-      if (resource.type === "user") syncRoleCount(data.roleId);
+
+      if (resource.type === "user") await syncRoleCount(data.roleId);
       return data;
     }
   } catch (error) {
@@ -63,7 +64,9 @@ async function handleUpdate(resource: Resource): Promise<Resource | undefined> {
       const data = await response.json();
 
       // handle role count if resource is user
-      if (oldUser) syncRoleCount(data.roleId, oldUser.roleId);
+      if (oldUser && oldUser.roleId !== (resource as User).roleId) {
+        await syncRoleCount((resource as User).roleId, oldUser.roleId);
+      }
       return data;
     }
   } catch (error) {

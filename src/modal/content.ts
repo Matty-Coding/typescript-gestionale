@@ -7,10 +7,10 @@ import {
 } from "../services/api.js";
 import { createForm } from "../components/form.js";
 import { generateTextInput } from "../components/text-input.js";
-import { generateCheckbox } from "../components/checkbox-input.js";
 import { generateSubmitButton } from "../components/modal-submit-button.js";
 import { handleFormSubmit } from "../services/resource-submit.js";
 import { displayData, handleFetch } from "../ui-management.js";
+import { generateTextArea } from "../components/textarea-input.js";
 
 const modalContent = document.querySelector("#modal-content") as HTMLDivElement;
 
@@ -39,17 +39,10 @@ async function userModal(resource: User): Promise<HTMLDivElement> {
     roleIdInput.appendChild(option);
   });
 
-  // checkbox isActive statement
-  const isActiveInput = generateCheckbox(
-    resource.isActive,
-    "isActive",
-    "Active",
-  );
-
   // submit button
   const modalSubmitButton = generateSubmitButton(resource);
 
-  userForm.append(usernameInput, roleIdInput, isActiveInput, modalSubmitButton);
+  userForm.append(usernameInput, roleIdInput, modalSubmitButton);
 
   // build modal
   modalContent.appendChild(userForm);
@@ -99,28 +92,16 @@ async function postModal(resource: Post): Promise<HTMLDivElement> {
     resource.title as string,
   );
 
-  const contentInput = generateTextInput(
+  const contentInput = generateTextArea(
     "Insert post content",
     "content",
     resource.content as string,
   );
 
-  const isActiveInput = generateCheckbox(
-    resource.isActive,
-    "isActive",
-    "Active",
-  );
-
   // submit button
   const modalSubmitButton = generateSubmitButton(resource);
 
-  postForm.append(
-    selectUserId,
-    titleInput,
-    contentInput,
-    isActiveInput,
-    modalSubmitButton,
-  );
+  postForm.append(selectUserId, titleInput, contentInput, modalSubmitButton);
 
   // build modal
   modalContent.appendChild(postForm);
@@ -162,27 +143,16 @@ async function commentModal(resource: Comment): Promise<HTMLDivElement> {
     selectPostId.appendChild(option);
   });
 
-  const contentInput = generateTextInput(
+  const contentInput = generateTextArea(
     "Insert comment content",
     "content",
     resource.content as string,
   );
 
-  const isActiveInput = generateCheckbox(
-    resource.isActive,
-    "isActive",
-    "Active",
-  );
-
   // submit button
   const modalSubmitButton = generateSubmitButton(resource);
 
-  commentForm.append(
-    selectPostId,
-    contentInput,
-    isActiveInput,
-    modalSubmitButton,
-  );
+  commentForm.append(selectPostId, contentInput, modalSubmitButton);
 
   // build modal
   modalContent.appendChild(commentForm);
@@ -203,16 +173,10 @@ async function roleModal(resource: Role): Promise<HTMLDivElement> {
     resource.name as string,
   );
 
-  const isActiveInput = generateCheckbox(
-    resource.isActive,
-    "isActive",
-    "Active",
-  );
-
   // submit button
   const modalSubmitButton = generateSubmitButton(resource);
 
-  roleForm.append(nameInput, isActiveInput, modalSubmitButton);
+  roleForm.append(nameInput, modalSubmitButton);
 
   // build modal
   modalContent.appendChild(roleForm);

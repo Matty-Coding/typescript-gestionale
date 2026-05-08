@@ -40,7 +40,8 @@ resourcesList.addEventListener("click", async (e: Event) => {
   currentResource = field;
 
   const data = await handleFetch(field);
-  displayData(data);
+  const activeData = data.filter((element) => element.isActive === true);
+  displayData(activeData);
 });
 
 // on page load try to load users resource and eventually display it
@@ -100,7 +101,7 @@ tableBody.addEventListener("click", async (event: Event) => {
   const id = row.getAttribute("data-id") as string;
 
   const data = await getAllData(currentResource as string);
-  const activeData = data.filter((element) => element.isActive);
+  const activeData = data.filter((element) => element.isActive === true);
   const selectedData = activeData.find(
     (element) => element.id === id,
   ) as Resource;
