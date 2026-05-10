@@ -7,24 +7,21 @@ import { openModal, openTrashModal } from "./components/modal/load-content.js";
 import type { Resource } from "./types.js";
 import { closeModal } from "./utils/close-modal.js";
 import { getAllData } from "./services/api.js";
+import {
+  closeModalbutton,
+  hamburgerMenu,
+  resourcesList,
+  sideBar,
+  tableBody,
+  trashButton,
+} from "./utils/selectors.js";
 
 export let currentResource: string = "users";
-
-// toggle sidebar
-const sideBar = document.querySelector("aside") as HTMLElement;
-const hamburgerMenu = document.querySelector("#hamburger-icon") as HTMLElement;
-const tableBody = document.querySelector(
-  "#table-body",
-) as HTMLTableSectionElement;
 
 hamburgerMenu.onclick = function (): void {
   sideBar.classList.toggle("-translate-x-[105%]");
   sideBar.classList.toggle("translate-x-0");
 };
-
-const resourcesList = document.querySelector(
-  "#resources-list",
-) as HTMLUListElement;
 
 // resource listener to display data
 resourcesList.addEventListener("click", async (e: Event) => {
@@ -77,9 +74,6 @@ addResourceButton.addEventListener("click", (): void => {
   openModal(templates[currentResource] as Resource);
 });
 
-// listener to open trash
-const trashButton = document.querySelector("#trash") as HTMLButtonElement;
-
 trashButton.addEventListener("click", async (): Promise<void> => {
   const data = await getAllData(currentResource as string);
 
@@ -89,7 +83,7 @@ trashButton.addEventListener("click", async (): Promise<void> => {
 });
 
 // listener to close modal
-document.querySelector("#close-modal")?.addEventListener("click", closeModal);
+closeModalbutton.addEventListener("click", closeModal);
 
 // listener to open modal on table
 tableBody.addEventListener("click", async (event: Event) => {

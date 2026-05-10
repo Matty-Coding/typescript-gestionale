@@ -1,5 +1,6 @@
+import { modal } from "./selectors.js";
+
 function closeModal(): void {
-  const modal = document.querySelector("#modal") as HTMLDivElement;
   modal.classList.add("hidden");
 }
 

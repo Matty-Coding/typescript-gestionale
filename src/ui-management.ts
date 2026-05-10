@@ -1,24 +1,13 @@
 import type { BaseInterface, Post, Resource, Role, User } from "./types.js";
 import { getAllData } from "./services/api.js";
 import { capitalize } from "./utils/capitalize.js";
-
-const dashboardTitle = document.querySelector(
-  "#dashboard-title",
-) as HTMLHeadingElement;
-
-const addResourceButton = document.querySelector(
-  "#add-resource",
-) as HTMLButtonElement;
-
-const tableHead = document.querySelector(
-  "#table-head",
-) as HTMLTableSectionElement;
-
-const tableBody = document.querySelector(
-  "#table-body",
-) as HTMLTableSectionElement;
-
-const statement = document.querySelector("#statement") as HTMLParagraphElement;
+import {
+  addResourceButton,
+  dashboardTitle,
+  statement,
+  tableBody,
+  tableHead,
+} from "./utils/selectors.js";
 
 async function displayData(data: Resource[]): Promise<void> {
   const roles = (await getAllData("roles")) as Role[];

@@ -1,5 +1,3 @@
-// =============  interfaces  =============
-
 // base interface for all resources
 interface BaseInterface {
   readonly id: string | undefined;
