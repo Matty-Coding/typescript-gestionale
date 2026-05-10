@@ -15,7 +15,7 @@ import {
   tableBody,
   trashButton,
 } from "./utils/selectors.js";
-import { addResource } from "./utils/add-resource.js";
+import { addResource } from "./types/add-resource.js";
 
 export let currentResource: string = "users";
 

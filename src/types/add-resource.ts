@@ -1,10 +1,4 @@
-import type {
-  Post,
-  Resource,
-  User,
-  Comment,
-  Role,
-} from "../types/resources.js";
+import type { Post, Resource, User, Comment, Role } from "./resources.js";
 
 const addResource: Record<string, Resource> = {
   users: {
