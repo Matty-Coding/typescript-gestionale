@@ -1,4 +1,10 @@
-import type { BaseInterface, Post, Resource, Role, User } from "./types.js";
+import type {
+  BaseInterface,
+  Post,
+  Resource,
+  Role,
+  User,
+} from "./types/resources.js";
 import { getAllData } from "./services/api.js";
 import { capitalize } from "./utils/capitalize.js";
 import {

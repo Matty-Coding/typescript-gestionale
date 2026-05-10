@@ -4,7 +4,7 @@ import {
   addResourceButton,
 } from "./ui-management.js";
 import { openModal, openTrashModal } from "./components/modal/load-content.js";
-import type { Resource } from "./types.js";
+import type { Resource } from "./types/resources.js";
 import { closeModal } from "./utils/close-modal.js";
 import { getAllData } from "./services/api.js";
 import {
@@ -15,6 +15,7 @@ import {
   tableBody,
   trashButton,
 } from "./utils/selectors.js";
+import { addResource } from "./utils/add-resource.js";
 
 export let currentResource: string = "users";
 
@@ -24,9 +25,9 @@ hamburgerMenu.onclick = function (): void {
 };
 
 // resource listener to display data
-resourcesList.addEventListener("click", async (e: Event) => {
+resourcesList.addEventListener("click", async (event: Event) => {
   // select list item
-  const target = (e.target as HTMLLIElement).closest("li");
+  const target = (event.target as HTMLLIElement).closest("li");
 
   // take text content from list item
   let field = target?.textContent as string;
@@ -51,27 +52,9 @@ window.onload = async function (): Promise<void> {
 
 // listener to open modal on current resource
 addResourceButton.addEventListener("click", (): void => {
-  const templates: Record<string, Resource> = {
-    users: { id: "", type: "user", username: "", roleId: "", isActive: true },
-    posts: {
-      id: "",
-      type: "post",
-      title: "",
-      content: "",
-      isActive: true,
-      userId: "",
-    },
-    comments: {
-      id: "",
-      type: "comment",
-      postId: "",
-      content: "",
-      isActive: true,
-    },
-    roles: { id: "", type: "role", name: "", count: 0, isActive: true },
-  };
+  const resources = addResource;
 
-  openModal(templates[currentResource] as Resource);
+  openModal(resources[currentResource] as Resource);
 });
 
 trashButton.addEventListener("click", async (): Promise<void> => {

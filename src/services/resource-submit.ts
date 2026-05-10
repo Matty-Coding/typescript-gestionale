@@ -1,5 +1,11 @@
 import { handleCreate, handleUpdate } from "./api.js";
-import type { Resource, User, Post, Comment, Role } from "../types.js";
+import type {
+  Resource,
+  User,
+  Post,
+  Comment,
+  Role,
+} from "../types/resources.js";
 import { displayData, handleFetch } from "../ui-management.js";
 import { closeModal } from "../utils/close-modal.js";
 

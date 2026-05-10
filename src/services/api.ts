@@ -1,4 +1,4 @@
-import type { Resource, User } from "../types.js";
+import type { Resource, User } from "../types/resources.js";
 import { syncRoleCount } from "./roles-counter.js";
 
 const localhost: string = "http://localhost:3000";

@@ -1,5 +1,5 @@
 import { getAllData, handleUpdate } from "./api.js";
-import type { Role } from "../types.js";
+import type { Role } from "../types/resources.js";
 
 // sync role count
 async function syncRoleCount(

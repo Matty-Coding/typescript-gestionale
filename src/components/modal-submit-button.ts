@@ -1,4 +1,4 @@
-import type { Resource } from "../types.js";
+import type { Resource } from "../types/resources.js";
 import { capitalize } from "../utils/capitalize.js";
 
 function generateSubmitButton(resource: Resource): HTMLButtonElement {
